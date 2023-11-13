@@ -24,8 +24,6 @@ function imageLoaded() {
   if (imagesLoaded === totalImages) {
     ready = true;
     loader.hidden = true;
-    count = 30
-    apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
   }
 }
 
@@ -70,6 +68,7 @@ async function getPhotos() {
     photosArray = await response.json();
     displayPhotos();
 
+    // Only one count = 5 because i want the first load to be smooth and fast, and then set the count = 30, because if the first count is 30 or greater, the response process will take a long time,causing a bad user experience.
     if (isInitialLoad) {
       updateAPIURLWithNewCount(30)
       isInitialLoad = false
