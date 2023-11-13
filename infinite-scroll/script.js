@@ -5,12 +5,18 @@ let ready = false;
 let imagesLoaded = 0;
 let totalImages = 0;
 let photosArray = [];
+let isInitialLoad = true
 
 // Unsplash API
 let count = 5;
 // Normally, don't store API Keys like this, but an exception made here because it is free, and the data is publicly available!
 const apiKey = 'jFgS8tteGD425f4oZfygQVaVnD6gt6GucN2yyz3xFek';
 let apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
+
+
+function updateAPIURLWithNewCount(picCount) {
+  apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${picCount}`;
+}
 
 // Check if all images were loaded
 function imageLoaded() {
@@ -63,6 +69,11 @@ async function getPhotos() {
     const response = await fetch(apiUrl);
     photosArray = await response.json();
     displayPhotos();
+
+    if (isInitialLoad) {
+      updateAPIURLWithNewCount(30)
+      isInitialLoad = false
+    }
   } catch (error) {
     // Catch Error Here
   }
